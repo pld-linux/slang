@@ -1,9 +1,6 @@
-#
-# Conditional build:
-%bcond_with	uClibc	# use hacks to build against uClibc
-%bcond_with	utf8	# utf8 support
-#
-%define		docver	1.4.8
+# TODO:
+# - subpackages for some modules like pcre/png?
+# - subpackage for slsh
 Summary:	shared library for C like extension language
 Summary(de):	Shared Library fЭr eine C-artige Sprache
 Summary(es):	Biblioteca compartida para leguaje de extensiСn semejante a C
@@ -14,31 +11,23 @@ Summary(ru):	Разделяемая библиотека C-подобного языка расширения S-Lang
 Summary(tr):	C benzeri dil iГin ortak kitaplЩk
 Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
 Name:		slang
-Version:	1.4.9
-Release:	8%{?with_utf8:utf8}
+Version:	2.0.4
+Release:	0.1
 Epoch:		1
 License:	GPL
 Group:		Libraries
-Source0:	ftp://space.mit.edu/pub/davis/slang/v1.4/%{name}-%{version}.tar.bz2
-# Source0-md5:	4fbb1a7f1257e065ca830deefe13d350
-Source1:	ftp://space.mit.edu/pub/davis/slang/v1.4/%{name}-%{docver}-doc.tar.bz2
-# Source1-md5:	7dac82b282494affcf619730bbee0d6c
-Patch0:		%{name}-security.patch
-Patch1:		%{name}-DESTDIR.patch
-Patch2:		%{name}-nodevel.patch
-Patch3:		%{name}-uclibc_ac_fix.patch
-Patch4:		%{name}-remove_unused_terminfo_paths.patch
-Patch5:		%{name}-cc.patch
-Patch6:		%{name}-uClibc.patch
-# utf8 patches: http://www.suse.de/~nadvornik/slang/
-Patch7:		%{name}-debian-utf8.patch
-Patch8:		%{name}-utf8-acs.patch
-Patch9:		%{name}-utf8-fix.patch
+Source0:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}-%{version}.tar.bz2
+# Source0-md5:	85d968e5d1ea2d79beba40d625732700
+Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-%{version}.tar.gz
+# Source1-md5:	1c7acca555a4ad1c165048f751e09b02
+Patch0:		%{name}-nodevel.patch
+Patch1:		%{name}-remove_unused_terminfo_paths.patch
 URL:		http://www.s-lang.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	pcre-devel
+BuildRequires:	libpng-devel
 Obsoletes:	libslang1
-%{?with_utf8:Provides: slang(utf8)}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_includedir	%{_prefix}/include/slang
@@ -131,8 +120,6 @@ Summary(tr):	slang dili iГin statik kitaplЩk ve baЧlЩk dosyalarЩ
 Summary(uk):	Б╕бл╕отеки та хедери для C-под╕бно╖ мови S-Lang
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-%{?with_utf8:Requires: slang(utf8)}
-%{?with_utf8:Provides: slang-devel(utf8)}
 Obsoletes:	libslang1-devel
 
 %description devel
@@ -183,8 +170,6 @@ Summary(ru):	Статическая библиотека для C-подобного языка S-Lang
 Summary(uk):	Статична б╕бл╕отека для C-под╕бно╖ мови S-Lang
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
-%{?with_utf8:Requires: slang-devel(utf8)}
-%{?with_utf8:Provides: slang-static(utf8)}
 
 %description static
 This package contains the slang static libraries.
@@ -209,37 +194,17 @@ Bibliotecas estАticas para desenvolvimento com slang.
 %prep
 %setup -q -a1
 %patch0 -p1
-#%%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%{?with_uClibc:%patch6 -p1}
-%if %{with utf8}
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%endif
+%patch1 -p1
 
 %build
-cp /usr/share/automake/config.sub autoconf
-mv -f autoconf/aclocal.m4 acinclude.m4
-mv -f autoconf/configure.in .
-%{__aclocal}
-%{__autoconf}
-cd demo
-cp -f ../acinclude.m4 .
-%{__aclocal}
-%{__autoconf}
-cd ..
-%configure
+%configure \
+	--with-pcre \
+	--with-png
 
 %{__make} elf \
 	ELF_CFLAGS="%{rpmcflags} -fPIC"
 %{__make} all \
 	CFLAGS="%{rpmcflags}"
-
-%{?with_utf8:ln -s libslang-utf8.so.%{version} src/elfobjs/libslang.so}
 
 %{__make} -C slsh \
 	DL_LIB="-ldl" \
@@ -256,12 +221,6 @@ install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
 	DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-links \
 	DESTDIR=$RPM_BUILD_ROOT
-
-%if %{with utf8}
-ln -sf libslang-utf8.so.%{version} ${RPM_BUILD_ROOT}%{_libdir}/libslang-utf8.so.1
-ln -sf libslang-utf8.so ${RPM_BUILD_ROOT}%{_libdir}/libslang.so
-ln -sf libslang-utf8.a ${RPM_BUILD_ROOT}%{_libdir}/libslang.a
-%endif
 
 install slsh/slsh $RPM_BUILD_ROOT%{_bindir}
 
@@ -280,10 +239,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so.*
+%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/v2
+%dir %{_libdir}/%{name}/v2/modules
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
+%{_datadir}/slsh
+%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/slsh.rc
+%{_mandir}/man1/*1.*
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/*.txt
+%doc doc/*.txt doc/text/*.txt
 %attr(755,root,root) %{_libdir}/libslang*.so
 %{_includedir}
 %{_examplesdir}/%{name}-%{version}
