@@ -25,8 +25,8 @@ Patch1:		%{name}-remove_unused_terminfo_paths.patch
 URL:		http://www.s-lang.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	pcre-devel
 BuildRequires:	libpng-devel
+BuildRequires:	pcre-devel
 Obsoletes:	libslang1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -244,7 +244,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/v2/modules
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
 %{_datadir}/slsh
-%config(noreplace) %verify(not md5 size mtime) %{_sysconfdir}/slsh.rc
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
 %{_mandir}/man1/*1.*
 
 %files devel
