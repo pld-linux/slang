@@ -3,7 +3,7 @@
 %bcond_with	uClibc	# use hacks to build against uClibc
 %bcond_with	utf8	# utf8 support
 #
-%define		docver  1.4.8
+%define		docver	1.4.8
 Summary:	shared library for C like extension language
 Summary(de):	Shared Library fЭr eine C-artige Sprache
 Summary(es):	Biblioteca compartida para leguaje de extensiСn semejante a C
@@ -15,14 +15,14 @@ Summary(tr):	C benzeri dil iГin ortak kitaplЩk
 Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
 Name:		slang
 Version:	1.4.9
-Release:	8
+Release:	8%{?with_utf8:utf8}
 Epoch:		1
 License:	GPL
 Group:		Libraries
 Source0:	ftp://space.mit.edu/pub/davis/slang/v1.4/%{name}-%{version}.tar.bz2
-# Source0-md5: 4fbb1a7f1257e065ca830deefe13d350
+# Source0-md5:	4fbb1a7f1257e065ca830deefe13d350
 Source1:	ftp://space.mit.edu/pub/davis/slang/v1.4/%{name}-%{docver}-doc.tar.bz2
-# Source1-md5: 7dac82b282494affcf619730bbee0d6c
+# Source1-md5:	7dac82b282494affcf619730bbee0d6c
 Patch0:		%{name}-security.patch
 Patch1:		%{name}-DESTDIR.patch
 Patch2:		%{name}-nodevel.patch
@@ -38,6 +38,7 @@ URL:		http://www.s-lang.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 Obsoletes:	libslang1
+%{?with_utf8:Provides:	slang(utf8)}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_includedir	%{_prefix}/include/slang
@@ -130,6 +131,8 @@ Summary(tr):	slang dili iГin statik kitaplЩk ve baЧlЩk dosyalarЩ
 Summary(uk):	Б╕бл╕отеки та хедери для C-под╕бно╖ мови S-Lang
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
+%{?with_utf8:Requires:	slang(utf8)}
+%{?with_utf8:Provides:	slang-devel(utf8)}
 Obsoletes:	libslang1-devel
 
 %description devel
@@ -180,6 +183,8 @@ Summary(ru):	Статическая библиотека для C-подобного языка S-Lang
 Summary(uk):	Статична б╕бл╕отека для C-под╕бно╖ мови S-Lang
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
+%{?with_utf8:Requires:	slang-devel(utf8)}
+%{?with_utf8:Provides:	slang-static(utf8)}
 
 %description static
 This package contains the slang static libraries.
@@ -202,7 +207,7 @@ Bibliotecas estАticas para desenvolvimento com slang.
 що використовують Slang.
 
 %prep
-%setup  -q -a1
+%setup -q -a1
 %patch0 -p1
 #%%patch1 -p1
 %patch2 -p1
@@ -211,9 +216,9 @@ Bibliotecas estАticas para desenvolvimento com slang.
 %patch5 -p1
 %{?with_uClibc:%patch6 -p1}
 %if %{with utf8}
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 %endif
 
 %build
@@ -268,8 +273,8 @@ chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
