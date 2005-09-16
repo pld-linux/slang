@@ -1,6 +1,3 @@
-# TODO:
-# - subpackages for some modules like pcre/png?
-# - subpackage for slsh
 Summary:	shared library for C like extension language
 Summary(de):	Shared Library fЭr eine C-artige Sprache
 Summary(es):	Biblioteca compartida para leguaje de extensiСn semejante a C
@@ -12,7 +9,7 @@ Summary(tr):	C benzeri dil iГin ortak kitaplЩk
 Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
 Name:		slang
 Version:	2.0.4
-Release:	0.1
+Release:	1
 Epoch:		1
 License:	GPL
 Group:		Libraries
@@ -191,6 +188,22 @@ Bibliotecas estАticas para desenvolvimento com slang.
 Цей пакет м╕стить статичну б╕бл╕отеку, необх╕дну для розробки програм,
 що використовують Slang.
 
+%package png
+Summary:	PNG module for Slang
+Group:		Libraries
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description png
+PNG module for Slang.
+
+%package pcre
+Summary:	PCRE module for Slang
+Group:		Libraries
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+
+%description pcre
+PCRE module for Slang.
+
 %prep
 %setup -q -a1
 %patch0 -p1
@@ -227,7 +240,8 @@ install slsh/slsh $RPM_BUILD_ROOT%{_bindir}
 cp -a modules examples demo src/curses $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 # help rpmdeps
-chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so*
+chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so* \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/v2/modules/*.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -243,6 +257,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/v2
 %dir %{_libdir}/%{name}/v2/modules
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
+%attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/png-module.so
+%attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
 %{_datadir}/slsh
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
 %{_mandir}/man1/*1.*
@@ -257,3 +273,11 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libslang*.a
+
+%files png
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/png-module.so
+
+%files pcre
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/pcre-module.so
