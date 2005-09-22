@@ -190,19 +190,27 @@ Bibliotecas estáticas para desenvolvimento com slang.
 
 %package png
 Summary:	PNG module for Slang
+Summary(pl):	Modu³ PNG dla Slanga
 Group:		Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description png
 PNG module for Slang.
 
+%description png -l pl
+Modu³ PNG dla Slanga.
+
 %package pcre
 Summary:	PCRE module for Slang
+Summary(pl):	Modu³ PCRE dla Slanga
 Group:		Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description pcre
 PCRE module for Slang.
+
+%description pcre -l pl
+Modu³ PCRE dla Slanga.
 
 %prep
 %setup -q -a1
