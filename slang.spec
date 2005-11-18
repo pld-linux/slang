@@ -238,7 +238,7 @@ install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-elf \
+%{__make} -j1 install-elf \
 	DESTDIR=$RPM_BUILD_ROOT
 %{__make} install-links \
 	DESTDIR=$RPM_BUILD_ROOT
