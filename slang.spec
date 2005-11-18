@@ -9,7 +9,7 @@ Summary(tr):	C benzeri dil iГin ortak kitaplЩk
 Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
 Name:		slang
 Version:	2.0.5
-Release:	1
+Release:	1.1
 Epoch:		1
 License:	GPL
 Group:		Libraries
@@ -24,6 +24,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libpng-devel
 BuildRequires:	pcre-devel
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -104,6 +105,13 @@ Slang - це потужний стековий ╕нтерпретатор, що п╕дтриму╓ C-под╕бний
 безпечному та ефективному вбудовуванню в ц╕ програми. Slang нагаду╓ C,
 так що, при виникненн╕ тако╖ потреби, можливо досить легко
 перекодувати вс╕ процедури Slang в C.
+
+%package libs
+Summary:	shared libraries for slang C like language
+Group:		Libraries
+
+%description libs
+shared libraries for slang C like language
 
 %package devel
 Summary:	header files for slang C like language
@@ -254,22 +262,25 @@ chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so* \
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*.so.*
+%{_datadir}/slsh
+%{_mandir}/man1/*1.*
+
+%files libs
+%defattr(644,root,root,755)
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/v2
 %dir %{_libdir}/%{name}/v2/modules
+%attr(755,root,root) %{_libdir}/lib*.so.*
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
 %attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/png-module.so
 %attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
-%{_datadir}/slsh
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
-%{_mandir}/man1/*1.*
 
 %files devel
 %defattr(644,root,root,755)
