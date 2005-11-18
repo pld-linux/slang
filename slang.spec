@@ -1,4 +1,4 @@
-Summary:	shared library for C like extension language
+Summary:	Shared library for C like extension language
 Summary(de):	Shared Library fЭr eine C-artige Sprache
 Summary(es):	Biblioteca compartida para leguaje de extensiСn semejante a C
 Summary(fr):	BibliothХque partagИe pour le langage d'extension C like
@@ -107,11 +107,15 @@ Slang - це потужний стековий ╕нтерпретатор, що п╕дтриму╓ C-под╕бний
 перекодувати вс╕ процедури Slang в C.
 
 %package libs
-Summary:	shared libraries for slang C like language
+Summary:	Shared libraries for slang C like language
+Summary(pl):	Biblioteka wspСЁdzielona Slang
 Group:		Libraries
 
 %description libs
-shared libraries for slang C like language
+Shared libraries for slang C like language
+
+%description libs -l pl
+Biblioteka wspСЁdzielona Slang.
 
 %package devel
 Summary:	header files for slang C like language
@@ -124,7 +128,7 @@ Summary(ru):	Библиотеки и хедеры для C-подобного языка S-Lang
 Summary(tr):	slang dili iГin statik kitaplЩk ve baЧlЩk dosyalarЩ
 Summary(uk):	Б╕бл╕отеки та хедери для C-под╕бно╖ мови S-Lang
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1-devel
 
 %description devel
@@ -200,7 +204,7 @@ Bibliotecas estАticas para desenvolvimento com slang.
 Summary:	PNG module for Slang
 Summary(pl):	ModuЁ PNG dla Slanga
 Group:		Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 
 %description png
 PNG module for Slang.
@@ -212,7 +216,7 @@ ModuЁ PNG dla Slanga.
 Summary:	PCRE module for Slang
 Summary(pl):	ModuЁ PCRE dla Slanga
 Group:		Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 
 %description pcre
 PCRE module for Slang.
@@ -270,7 +274,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/slsh
-%{_mandir}/man1/*1.*
+%{_mandir}/man1/*.1*
 
 %files libs
 %defattr(644,root,root,755)
