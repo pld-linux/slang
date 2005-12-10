@@ -287,7 +287,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/v2/modules
 %attr(755,root,root) %{_libdir}/lib*.so.*
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
-%attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/png-module.so
+%{?with_png:%attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/png-module.so}
 %attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
 
 %files devel
