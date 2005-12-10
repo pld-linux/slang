@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	png	# build slang without PNG module
+#
 Summary:	Shared library for C like extension language
 Summary(de):	Shared Library für eine C-artige Sprache
 Summary(es):	Biblioteca compartida para leguaje de extensión semejante a C
@@ -22,7 +26,7 @@ Patch1:		%{name}-remove_unused_terminfo_paths.patch
 URL:		http://www.s-lang.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libpng-devel
+%{?with_png:BuildRequires:	libpng-devel}
 BuildRequires:	pcre-devel
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1
@@ -232,7 +236,7 @@ Modu³ PCRE dla Slanga.
 %build
 %configure \
 	--with-pcre \
-	--with-png
+	%{?with_png:--with-png}
 
 %{__make} elf \
 	ELF_CFLAGS="%{rpmcflags} -fPIC"
@@ -297,9 +301,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libslang*.a
 
+%if %{with png}
 %files png
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/png-module.so
+%endif
 
 %files pcre
 %defattr(644,root,root,755)
