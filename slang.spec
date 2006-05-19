@@ -13,7 +13,7 @@ Summary(tr):	C benzeri dil iГin ortak kitaplЩk
 Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
 Name:		slang
 Version:	2.0.6
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		Libraries
@@ -114,6 +114,7 @@ Slang - це потужний стековий ╕нтерпретатор, що п╕дтриму╓ C-под╕бний
 Summary:	Shared libraries for slang C like language
 Summary(pl):	Biblioteka wspСЁdzielona Slang
 Group:		Libraries
+Conflicts:	slang < 1:2.0.5-1.1
 
 %description libs
 Shared libraries for slang C like language
