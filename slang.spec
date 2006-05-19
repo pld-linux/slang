@@ -268,6 +268,8 @@ cp -a modules examples demo src/curses $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{
 chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so* \
 	$RPM_BUILD_ROOT%{_libdir}/%{name}/v2/modules/*.so
 
+rm -rf $RPM_BUILD_ROOT%{_docdir}/slang/v2
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
