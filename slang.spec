@@ -237,7 +237,7 @@ Modu³ PCRE dla Slanga.
 %build
 %configure \
 	--with-pcre \
-	%{?with_png:--with-png}
+	--with%{!?with_png:out}-png
 
 %{__make} elf \
 	ELF_CFLAGS="%{rpmcflags} -fPIC"
