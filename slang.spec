@@ -23,6 +23,7 @@ Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
 # Source1-md5:	1c7acca555a4ad1c165048f751e09b02
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
+Patch2:		%{name}-LDFLAGS.patch
 URL:		http://www.s-lang.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -233,6 +234,7 @@ Modu³ PCRE dla Slanga.
 %setup -q -a1
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %configure \
