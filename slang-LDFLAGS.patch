@@ -1,7 +1,6 @@
-diff -Nur slang-2.0.6.orig/modules/Makefile.in slang-2.0.6.LDFLAGS/modules/Makefile.in
---- slang-2.0.6.orig/modules/Makefile.in	2006-02-05 21:47:31.000000000 +0100
-+++ slang-2.0.6.LDFLAGS/modules/Makefile.in	2006-08-05 16:51:40.000000000 +0200
-@@ -57,21 +57,21 @@
+--- slang-2.0.7/modules/Makefile.in.orig	2006-11-04 16:57:31.000000000 +0100
++++ slang-2.0.7/modules/Makefile.in	2006-11-14 20:29:32.965155500 +0100
+@@ -68,23 +68,23 @@
  	cp ../src/config.h .
  
  slsmg-module.so: slsmg-module.c config.h
@@ -28,6 +27,9 @@ diff -Nur slang-2.0.6.orig/modules/Makefile.in slang-2.0.6.LDFLAGS/modules/Makef
  png-module.so: png-module.c config.h
 -	$(CC_SHARED) $(INCS) $(PNG_INC) png-module.c -o png-module.so $(PNG_LIB) $(LIBS)
 +	$(CC_SHARED) $(LDFLAGS) $(INCS) $(PNG_INC) png-module.c -o png-module.so $(PNG_LIB) $(LIBS)
+ socket-module.so: socket-module.c config.h
+-	$(CC_SHARED) $(INCS) socket-module.c -o socket-module.so $(SOCKET_LIBS) $(LIBS)
++	$(CC_SHARED) $(LDFLAGS) $(INCS) socket-module.c -o socket-module.so $(SOCKET_LIBS) $(LIBS)
  
+ # Note that Windows/Cygwin modules need execute permissions
  install: all
- 	-$(MKINSDIR) $(DEST_MODULEDIR)
