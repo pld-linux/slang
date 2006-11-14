@@ -12,13 +12,13 @@ Summary(ru):	Разделяемая библиотека C-подобного языка расширения S-Lang
 Summary(tr):	C benzeri dil iГin ortak kitaplЩk
 Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
 Name:		slang
-Version:	2.0.6
-Release:	2
+Version:	2.0.7
+Release:	1
 Epoch:		1
 License:	GPL
 Group:		Libraries
 Source0:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	efb055000636f312d5c3de56f3c70d12
+# Source0-md5:	522d9075a721ebe235211dc96c7db2d1
 Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
 # Source1-md5:	1c7acca555a4ad1c165048f751e09b02
 Patch0:		%{name}-nodevel.patch
