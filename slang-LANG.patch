@@ -1,0 +1,14 @@
+--- slang-2.0.5/src/slsmg.c.rasold	2005-12-02 12:54:03.000000000 +0100
++++ slang-2.0.5/src/slsmg.c	2005-12-02 12:57:49.000000000 +0100
+@@ -1500,8 +1500,10 @@
+    if (Smg_Inited)
+      SLsmg_reset_smg ();
+ 
+-   if (UTF8_Mode == -1)
++   if (UTF8_Mode == -1){
++     SLutf8_enable (-1);
+      UTF8_Mode = _pSLutf8_mode;
++   }
+ 
+    if (-1 == (*tt_init_video) ())
+      {
