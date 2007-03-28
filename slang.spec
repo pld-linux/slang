@@ -13,7 +13,7 @@ Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
 Version:	2.0.7
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL
 Group:		Libraries
@@ -24,6 +24,7 @@ Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
 Patch2:		%{name}-LDFLAGS.patch
+Patch3:		%{name}-LANG.patch
 URL:		http://www.s-lang.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -235,6 +236,7 @@ Moduł PCRE dla Slanga.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %configure \
