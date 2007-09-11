@@ -1,41 +1,34 @@
 #
 # Conditional build:
-%bcond_with	uClibc	# use hacks to build against uClibc
+%bcond_without	png	# build slang without PNG module
 #
-%define		docver  1.4.8
-Summary:	shared library for C like extension language
-Summary(de):	Shared Library fЭr eine C-artige Sprache
-Summary(es):	Biblioteca compartida para leguaje de extensiСn semejante a C
-Summary(fr):	BibliothХque partagИe pour le langage d'extension C like
-Summary(pl):	Biblioteka Slang
-Summary(pt_BR):	Biblioteca compartilhada para linguagem de extensЦo semelhante a C
-Summary(ru):	Разделяемая библиотека C-подобного языка расширения S-Lang
-Summary(tr):	C benzeri dil iГin ortak kitaplЩk
-Summary(uk):	Б╕бл╕отека сп╕льного користування C-под╕бно╖ мови розширення S-Lang
+Summary:	Shared library for C like extension language
+Summary(de.UTF-8):	Shared Library fц╪r eine C-artige Sprache
+Summary(es.UTF-8):	Biblioteca compartida para leguaje de extensiцЁn semejante a C
+Summary(fr.UTF-8):	Bibliothц╗que partagц╘e pour le langage d'extension C like
+Summary(pl.UTF-8):	Biblioteka Slang
+Summary(pt_BR.UTF-8):	Biblioteca compartilhada para linguagem de extensцёo semelhante a C
+Summary(ru.UTF-8):	п═п╟п╥п╢п╣п╩я▐п╣п╪п╟я▐ п╠п╦п╠п╩п╦п╬я┌п╣п╨п╟ C-п©п╬п╢п╬п╠п╫п╬пЁп╬ я▐п╥я▀п╨п╟ я─п╟я│я┬п╦я─п╣п╫п╦я▐ S-Lang
+Summary(tr.UTF-8):	C benzeri dil iц╖in ortak kitaplд╠k
+Summary(uk.UTF-8):	п▒я√п╠п╩я√п╬я┌п╣п╨п╟ я│п©я√п╩я▄п╫п╬пЁп╬ п╨п╬я─п╦я│я┌я┐п╡п╟п╫п╫я▐ C-п©п╬п╢я√п╠п╫п╬я≈ п╪п╬п╡п╦ я─п╬п╥я┬п╦я─п╣п╫п╫я▐ S-Lang
 Name:		slang
-Version:	1.4.9
-Release:	6
+Version:	2.1.2
+Release:	1
 Epoch:		1
-License:	GPL
+License:	GPL v2+
 Group:		Libraries
-Source0:	ftp://space.mit.edu/pub/davis/slang/v1.4/%{name}-%{version}.tar.bz2
-# Source0-md5: 4fbb1a7f1257e065ca830deefe13d350
-Source1:	ftp://space.mit.edu/pub/davis/slang/v1.4/%{name}-%{docver}-doc.tar.bz2
-# Source1-md5: 7dac82b282494affcf619730bbee0d6c
-Patch0:		%{name}-security.patch
-Patch1:		%{name}-DESTDIR.patch
-Patch2:		%{name}-nodevel.patch
-Patch3:		%{name}-uclibc_ac_fix.patch
-Patch4:		%{name}-remove_unused_terminfo_paths.patch
-Patch5:		%{name}-cc.patch
-Patch6:		%{name}-uClibc.patch
-# utf8 patches: http://www.suse.de/~nadvornik/slang/
-Patch7:		%{name}-debian-utf8.patch
-Patch8:		%{name}-utf8-acs.patch
-Patch9:		%{name}-utf8-fix.patch
+Source0:	ftp://space.mit.edu/pub/davis/slang/v2.1/%{name}-%{version}.tar.bz2
+# Source0-md5:	99534ae667ed1a50c863ce9a08912ccc
+# more recent text documentation already in Source0, html was not packaged anyway
+#Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
+Patch0:		%{name}-nodevel.patch
+Patch1:		%{name}-remove_unused_terminfo_paths.patch
+Patch2:		%{name}-LDFLAGS.patch
+Patch3:		%{name}-LANG.patch
 URL:		http://www.s-lang.org/
-BuildRequires:	autoconf
-BuildRequires:	automake
+%{?with_png:BuildRequires:	libpng-devel}
+BuildRequires:	pcre-devel
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -49,86 +42,98 @@ provides a way to quickly develop and debug the application embedding
 it in a safe and efficient manner. Since slang resembles C, it is easy
 to recode slang procedures in C if the need arises.
 
-%description -l de
-Slang (sprich ``sssslang'') ist ein leistungsfДhiger stapelbasierter
-Interpreter, der eine C-Дhnliche Syntax unterstЭtzt. Er kann auf
+%description -l de.UTF-8
+Slang (sprich ``sssslang'') ist ein leistungsfц╓higer stapelbasierter
+Interpreter, der eine C-ц╓hnliche Syntax unterstц╪tzt. Er kann auf
 einfache Weise in ein Programm eingebettet werden, damit dieses
-erweiterbar wird. Slang bietet auъerdem eine MЖglichkeit zum schnellen
+erweiterbar wird. Slang bietet auц÷erdem eine Mц╤glichkeit zum schnellen
 Entwickeln und Debuggen der Anwendung, in die er eingebettet ist. Da
-Slang C Дhnlich ist, kЖnnen Slang-VorgДnge einfach in C umgeschrieben
+Slang C ц╓hnlich ist, kц╤nnen Slang-Vorgц╓nge einfach in C umgeschrieben
 werden.
 
-%description -l es
+%description -l es.UTF-8
 Slang (se pronuncia "sssslang") es un potente interpretador que
-soporta C-como sintaxis. Fue escrito en el inicio para ser fАcilmente
-embutido en un programa para volverlo mАs extensible. Slang tambiИn
-nos ofrece una manera de rАpidamente desarrollar y depurar
-aplicaciones, empotrАndolo de manera segura y eficiente. Desde que
-slang se parece a C, se hizo fАcil recodificar los procedimientos
+soporta C-como sintaxis. Fue escrito en el inicio para ser fц║cilmente
+embutido en un programa para volverlo mц║s extensible. Slang tambiц╘n
+nos ofrece una manera de rц║pidamente desarrollar y depurar
+aplicaciones, empotrц║ndolo de manera segura y eficiente. Desde que
+slang se parece a C, se hizo fц║cil recodificar los procedimientos
 slang en C, si hace falta.
 
-%description -l fr
-slang (prononcez ╚ sssslang ╩) est un interprИteur puissant offrant
-une syntaxe Ю la C. Il a ИtИ conГu au dИbut pour Йtre facilement
-intИgrИ dans un programme afin de le rendre extensible. slang offre
-aussi le moyen de developper et dИbugger rapidement l'application
-intИgrИe de faГon sШre et efficace. Comme slang ressemble Ю C, il est
-facile de recoder les procИdures slang en C si besoin est.
+%description -l fr.UTF-8
+slang (prononcez б╚ sssslang б╩) est un interprц╘teur puissant offrant
+une syntaxe ц═ la C. Il a ц╘tц╘ conц╖u au dц╘but pour ц╙tre facilement
+intц╘grц╘ dans un programme afin de le rendre extensible. slang offre
+aussi le moyen de developper et dц╘bugger rapidement l'application
+intц╘grц╘e de faц╖on sц╩re et efficace. Comme slang ressemble ц═ C, il est
+facile de recoder les procц╘dures slang en C si besoin est.
 
-%description -l pl
-Slang jest opart╠ o terminfo bibliotek╠ do obsЁugi terminali
-znakowych, posiadaj╠c╠ wbudowany interpreter jЙzyka podobnego
-skЁadniowo do C. Na pocz╠tku byЁ on przeznaczony aby Ёatwo daЁ siЙ
-osadzaФ w aplikacjЙ i uczyniФ j╠ rozszerzon╠. Slang zapewnia
-mechanizmy uЁatwiaj╠ce szybkie tworzenie rozbudowanych, Ёatwo
-konfigurowalnych aplikacji. Slang rСwnie© umo©liwia proste
-prze╤ledzenie ewentualnych bЁЙdСw w aplikacjach w bezpieczny i wydajny
-sposСb.
+%description -l pl.UTF-8
+Slang jest opartд┘ o terminfo bibliotekд┘ do obsе┌ugi terminali
+znakowych, posiadajд┘cд┘ wbudowany interpreter jд≥zyka podobnego
+skе┌adniowo do C. Na poczд┘tku byе┌ on przeznaczony aby е┌atwo daе┌ siд≥
+osadzaд┤ w aplikacjд≥ i uczyniд┤ jд┘ rozszerzonд┘. Slang zapewnia
+mechanizmy uе┌atwiajд┘ce szybkie tworzenie rozbudowanych, е┌atwo
+konfigurowalnych aplikacji. Slang rцЁwnieе╪ umoе╪liwia proste
+przeе⌡ledzenie ewentualnych bе┌д≥dцЁw w aplikacjach w bezpieczny i wydajny
+sposцЁb.
 
-%description -l pt_BR
-Slang (pronuncМa-se "sssslang") И um poderoso interpretador que
-suporta C-como sintaxe. Ele foi escrito no inМcio para ser facilmente
-embutido em um programa para tornА-lo mais extensМvel. Slang tambИm
-oferece uma maneira de rapidamente desenvolver e depurar aplicaГУes,
+%description -l pt_BR.UTF-8
+Slang (pronuncц╜a-se "sssslang") ц╘ um poderoso interpretador que
+suporta C-como sintaxe. Ele foi escrito no inц╜cio para ser facilmente
+embutido em um programa para tornц║-lo mais extensц╜vel. Slang tambц╘m
+oferece uma maneira de rapidamente desenvolver e depurar aplicaц╖ц╣es,
 embutindo-o de maneira segura e eficiente. Desde que slang
-assemelhou-se com C, tornou-se fАcil re-codificar os procedimentos
-slang em C se necessАrio.
+assemelhou-se com C, tornou-se fц║cil re-codificar os procedimentos
+slang em C se necessц║rio.
 
-%description -l ru
-Slang - это мощный стековый интерпретатор, поддерживающий C-подобный
-синтаксис. С самого начала он разрабатывался так, чтобы его можно было
-легко встраивать в программы, делая их расширяемыми. Slang также дает
-возможность быстрой разработки и отладки программ посредством
-безопасного и эффективного встраивания в эти программы. Так как Slang
-напоминает C, то при возникновении такой потребности, можно достаточно
-легко перекодировать все процедуры slang в C.
+%description -l ru.UTF-8
+Slang - я█я┌п╬ п╪п╬я┴п╫я▀п╧ я│я┌п╣п╨п╬п╡я▀п╧ п╦п╫я┌п╣я─п©я─п╣я┌п╟я┌п╬я─, п©п╬п╢п╢п╣я─п╤п╦п╡п╟я▌я┴п╦п╧ C-п©п╬п╢п╬п╠п╫я▀п╧
+я│п╦п╫я┌п╟п╨я│п╦я│. п║ я│п╟п╪п╬пЁп╬ п╫п╟я┤п╟п╩п╟ п╬п╫ я─п╟п╥я─п╟п╠п╟я┌я▀п╡п╟п╩я│я▐ я┌п╟п╨, я┤я┌п╬п╠я▀ п╣пЁп╬ п╪п╬п╤п╫п╬ п╠я▀п╩п╬
+п╩п╣пЁп╨п╬ п╡я│я┌я─п╟п╦п╡п╟я┌я▄ п╡ п©я─п╬пЁя─п╟п╪п╪я▀, п╢п╣п╩п╟я▐ п╦я┘ я─п╟я│я┬п╦я─я▐п╣п╪я▀п╪п╦. Slang я┌п╟п╨п╤п╣ п╢п╟п╣я┌
+п╡п╬п╥п╪п╬п╤п╫п╬я│я┌я▄ п╠я▀я│я┌я─п╬п╧ я─п╟п╥я─п╟п╠п╬я┌п╨п╦ п╦ п╬я┌п╩п╟п╢п╨п╦ п©я─п╬пЁя─п╟п╪п╪ п©п╬я│я─п╣п╢я│я┌п╡п╬п╪
+п╠п╣п╥п╬п©п╟я│п╫п╬пЁп╬ п╦ я█я└я└п╣п╨я┌п╦п╡п╫п╬пЁп╬ п╡я│я┌я─п╟п╦п╡п╟п╫п╦я▐ п╡ я█я┌п╦ п©я─п╬пЁя─п╟п╪п╪я▀. п╒п╟п╨ п╨п╟п╨ Slang
+п╫п╟п©п╬п╪п╦п╫п╟п╣я┌ C, я┌п╬ п©я─п╦ п╡п╬п╥п╫п╦п╨п╫п╬п╡п╣п╫п╦п╦ я┌п╟п╨п╬п╧ п©п╬я┌я─п╣п╠п╫п╬я│я┌п╦, п╪п╬п╤п╫п╬ п╢п╬я│я┌п╟я┌п╬я┤п╫п╬
+п╩п╣пЁп╨п╬ п©п╣я─п╣п╨п╬п╢п╦я─п╬п╡п╟я┌я▄ п╡я│п╣ п©я─п╬я├п╣п╢я┐я─я▀ slang п╡ C.
 
-%description -l tr
-Slang, C'ye benzer bir yazЩmЩ olan, gЭГlЭ, yЩПЩn-tabanlЩ bir
-yorumlayЩcЩdЩr. C'ye benzer olduПundan Slang ile yazЩlmЩЧ kodlarЩ C'ye
-Гevirmek oldukГa kolaydЩr.
+%description -l tr.UTF-8
+Slang, C'ye benzer bir yazд╠mд╠ olan, gц╪ц╖lц╪, yд╠д÷д╠n-tabanlд╠ bir
+yorumlayд╠cд╠dд╠r. C'ye benzer olduд÷undan Slang ile yazд╠lmд╠е÷ kodlarд╠ C'ye
+ц╖evirmek oldukц╖a kolaydд╠r.
 
-%description -l uk
-Slang - це потужний стековий ╕нтерпретатор, що п╕дтриму╓ C-под╕бний
-синтаксис. З самого початку в╕н розроблявся так, щоб його можна було
-легко вбудовувати в програми, роблячи ╖х розширюваними. Slang також
-да╓ можлив╕сть швидко╖ розробки та в╕длагоджування програм завдяки
-безпечному та ефективному вбудовуванню в ц╕ програми. Slang нагаду╓ C,
-так що, при виникненн╕ тако╖ потреби, можливо досить легко
-перекодувати вс╕ процедури Slang в C.
+%description -l uk.UTF-8
+Slang - я├п╣ п©п╬я┌я┐п╤п╫п╦п╧ я│я┌п╣п╨п╬п╡п╦п╧ я√п╫я┌п╣я─п©я─п╣я┌п╟я┌п╬я─, я┴п╬ п©я√п╢я┌я─п╦п╪я┐я■ C-п©п╬п╢я√п╠п╫п╦п╧
+я│п╦п╫я┌п╟п╨я│п╦я│. п≈ я│п╟п╪п╬пЁп╬ п©п╬я┤п╟я┌п╨я┐ п╡я√п╫ я─п╬п╥я─п╬п╠п╩я▐п╡я│я▐ я┌п╟п╨, я┴п╬п╠ п╧п╬пЁп╬ п╪п╬п╤п╫п╟ п╠я┐п╩п╬
+п╩п╣пЁп╨п╬ п╡п╠я┐п╢п╬п╡я┐п╡п╟я┌п╦ п╡ п©я─п╬пЁя─п╟п╪п╦, я─п╬п╠п╩я▐я┤п╦ я≈я┘ я─п╬п╥я┬п╦я─я▌п╡п╟п╫п╦п╪п╦. Slang я┌п╟п╨п╬п╤
+п╢п╟я■ п╪п╬п╤п╩п╦п╡я√я│я┌я▄ я┬п╡п╦п╢п╨п╬я≈ я─п╬п╥я─п╬п╠п╨п╦ я┌п╟ п╡я√п╢п╩п╟пЁп╬п╢п╤я┐п╡п╟п╫п╫я▐ п©я─п╬пЁя─п╟п╪ п╥п╟п╡п╢я▐п╨п╦
+п╠п╣п╥п©п╣я┤п╫п╬п╪я┐ я┌п╟ п╣я└п╣п╨я┌п╦п╡п╫п╬п╪я┐ п╡п╠я┐п╢п╬п╡я┐п╡п╟п╫п╫я▌ п╡ я├я√ п©я─п╬пЁя─п╟п╪п╦. Slang п╫п╟пЁп╟п╢я┐я■ C,
+я┌п╟п╨ я┴п╬, п©я─п╦ п╡п╦п╫п╦п╨п╫п╣п╫п╫я√ я┌п╟п╨п╬я≈ п©п╬я┌я─п╣п╠п╦, п╪п╬п╤п╩п╦п╡п╬ п╢п╬я│п╦я┌я▄ п╩п╣пЁп╨п╬
+п©п╣я─п╣п╨п╬п╢я┐п╡п╟я┌п╦ п╡я│я√ п©я─п╬я├п╣п╢я┐я─п╦ Slang п╡ C.
+
+%package libs
+Summary:	Shared libraries for slang C like language
+Summary(pl.UTF-8):	Biblioteka wspцЁе┌dzielona Slang
+Group:		Libraries
+Conflicts:	slang < 1:2.0.5-1.1
+
+%description libs
+Shared libraries for slang C like language
+
+%description libs -l pl.UTF-8
+Biblioteka wspцЁе┌dzielona Slang.
 
 %package devel
 Summary:	header files for slang C like language
-Summary(de):	Header-Dateien fЭr eine Slangvariante der C-Sprache
-Summary(es):	Biblioteca y archivos de inclusiСn para slang
-Summary(fr):	En-tЙtes pour le langage slang
-Summary(pl):	Pliki nagЁСwkowe dla slanga
-Summary(pt_BR):	Bibliotecas e arquivos de inclusЦo para slang
-Summary(ru):	Библиотеки и хедеры для C-подобного языка S-Lang
-Summary(tr):	slang dili iГin statik kitaplЩk ve baЧlЩk dosyalarЩ
-Summary(uk):	Б╕бл╕отеки та хедери для C-под╕бно╖ мови S-Lang
+Summary(de.UTF-8):	Header-Dateien fц╪r eine Slangvariante der C-Sprache
+Summary(es.UTF-8):	Biblioteca y archivos de inclusiцЁn para slang
+Summary(fr.UTF-8):	En-tц╙tes pour le langage slang
+Summary(pl.UTF-8):	Pliki nagе┌цЁwkowe dla slanga
+Summary(pt_BR.UTF-8):	Bibliotecas e arquivos de inclusцёo para slang
+Summary(ru.UTF-8):	п▒п╦п╠п╩п╦п╬я┌п╣п╨п╦ п╦ я┘п╣п╢п╣я─я▀ п╢п╩я▐ C-п©п╬п╢п╬п╠п╫п╬пЁп╬ я▐п╥я▀п╨п╟ S-Lang
+Summary(tr.UTF-8):	slang dili iц╖in statik kitaplд╠k ve baе÷lд╠k dosyalarд╠
+Summary(uk.UTF-8):	п▒я√п╠п╩я√п╬я┌п╣п╨п╦ я┌п╟ я┘п╣п╢п╣я─п╦ п╢п╩я▐ C-п©п╬п╢я√п╠п╫п╬я≈ п╪п╬п╡п╦ S-Lang
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1-devel
 
 %description devel
@@ -136,100 +141,111 @@ This package contains header files required to develop slang-based
 applications. It also includes documentation to help you write
 slang-based apps.
 
-%description devel -l de
-Dieses Paket enthДlt Header-Dateien zum Entwickeln von slang-basierten
+%description devel -l de.UTF-8
+Dieses Paket enthц╓lt Header-Dateien zum Entwickeln von slang-basierten
 Anwendungen. Dokumentation zum Schreiben von slang-basierten
 Anwendungen ist enthalten.
 
-%description devel -l es
-Este paquete contiene las bibliotecas y archivos de inclusiСn slang,
+%description devel -l es.UTF-8
+Este paquete contiene las bibliotecas y archivos de inclusiцЁn slang,
 necesarios al desarrollo de aplicaciones basadas en slang.
 
-%description devel -l fr
-Ce paquetage contient les bibliothХques statiques et les en-tЙtes
-slang pour dИvelopper des applications en slang. Il contient aussi la
-documentation pour vous aider Ю Иcrire ces applications.
+%description devel -l fr.UTF-8
+Ce paquetage contient les bibliothц╗ques statiques et les en-tц╙tes
+slang pour dц╘velopper des applications en slang. Il contient aussi la
+documentation pour vous aider ц═ ц╘crire ces applications.
 
-%description devel -l pl
-Pakiet ten zawiera pliki nagЁСwkowe slang. Znajduje siЙ tutaj rСwnie©
-dokumentacja, ktСra pomo©e Ci w pisaniu aplikacji pod tЙ bibliotekЙ.
+%description devel -l pl.UTF-8
+Pakiet ten zawiera pliki nagе┌цЁwkowe slang. Znajduje siд≥ tutaj rцЁwnieе╪
+dokumentacja, ktцЁra pomoе╪e Ci w pisaniu aplikacji pod tд≥ bibliotekд≥.
 
-%description devel -l pt_BR
-Este pacote contИm as bibliotecas e arquivos de inclusЦo slang,
-necessАrias ao desenvolvimento de aplicaГУes baseadas em slang.
+%description devel -l pt_BR.UTF-8
+Este pacote contц╘m as bibliotecas e arquivos de inclusцёo slang,
+necessц║rias ao desenvolvimento de aplicaц╖ц╣es baseadas em slang.
 
-%description devel -l ru
-Этот пакет содержит библиотеки и хедеры, необходимые для разработки
-программ, использующих Slang.
+%description devel -l ru.UTF-8
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ я│п╬п╢п╣я─п╤п╦я┌ п╠п╦п╠п╩п╦п╬я┌п╣п╨п╦ п╦ я┘п╣п╢п╣я─я▀, п╫п╣п╬п╠я┘п╬п╢п╦п╪я▀п╣ п╢п╩я▐ я─п╟п╥я─п╟п╠п╬я┌п╨п╦
+п©я─п╬пЁя─п╟п╪п╪, п╦я│п©п╬п╩я▄п╥я┐я▌я┴п╦я┘ Slang.
 
-%description devel -l tr
-Bu paket slang tabanlЩ uygulamalar geliЧtirmek iГin gereken baЧlЩk
-dosyalarЩ ve kitaplЩklarЩn yanЩsЩra slang yardЩm belgelerini de
-iГerir.
+%description devel -l tr.UTF-8
+Bu paket slang tabanlд╠ uygulamalar geliе÷tirmek iц╖in gereken baе÷lд╠k
+dosyalarд╠ ve kitaplд╠klarд╠n yanд╠sд╠ra slang yardд╠m belgelerini de
+iц╖erir.
 
-%description devel -l uk
-Цей пакет м╕стить б╕бл╕отеки та хедери, необх╕дн╕ для розробки
-програм, що використовують Slang.
+%description devel -l uk.UTF-8
+п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄ п╠я√п╠п╩я√п╬я┌п╣п╨п╦ я┌п╟ я┘п╣п╢п╣я─п╦, п╫п╣п╬п╠я┘я√п╢п╫я√ п╢п╩я▐ я─п╬п╥я─п╬п╠п╨п╦
+п©я─п╬пЁя─п╟п╪, я┴п╬ п╡п╦п╨п╬я─п╦я│я┌п╬п╡я┐я▌я┌я▄ Slang.
 
 %package static
 Summary:	slang static library
-Summary(pl):	Biblioteka statyczna slang
-Summary(pt_BR):	Bibliotecas estАticas para desenvolvimento com slang
-Summary(ru):	Статическая библиотека для C-подобного языка S-Lang
-Summary(uk):	Статична б╕бл╕отека для C-под╕бно╖ мови S-Lang
+Summary(pl.UTF-8):	Biblioteka statyczna slang
+Summary(pt_BR.UTF-8):	Bibliotecas estц║ticas para desenvolvimento com slang
+Summary(ru.UTF-8):	п║я┌п╟я┌п╦я┤п╣я│п╨п╟я▐ п╠п╦п╠п╩п╦п╬я┌п╣п╨п╟ п╢п╩я▐ C-п©п╬п╢п╬п╠п╫п╬пЁп╬ я▐п╥я▀п╨п╟ S-Lang
+Summary(uk.UTF-8):	п║я┌п╟я┌п╦я┤п╫п╟ п╠я√п╠п╩я√п╬я┌п╣п╨п╟ п╢п╩я▐ C-п©п╬п╢я√п╠п╫п╬я≈ п╪п╬п╡п╦ S-Lang
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{epoch}:%{version}-%{release}
 
 %description static
 This package contains the slang static libraries.
 
-%description static -l de
-Dieses Paket enthДlt die statischen Libraries.
+%description static -l de.UTF-8
+Dieses Paket enthц╓lt die statischen Libraries.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteka statyczna slang.
 
-%description static -l pt_BR
-Bibliotecas estАticas para desenvolvimento com slang.
+%description static -l pt_BR.UTF-8
+Bibliotecas estц║ticas para desenvolvimento com slang.
 
-%description static -l ru
-Этот пакет содержит статическую библиотеку, необходимую для разработки
-программ, использующих Slang.
+%description static -l ru.UTF-8
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ я│п╬п╢п╣я─п╤п╦я┌ я│я┌п╟я┌п╦я┤п╣я│п╨я┐я▌ п╠п╦п╠п╩п╦п╬я┌п╣п╨я┐, п╫п╣п╬п╠я┘п╬п╢п╦п╪я┐я▌ п╢п╩я▐ я─п╟п╥я─п╟п╠п╬я┌п╨п╦
+п©я─п╬пЁя─п╟п╪п╪, п╦я│п©п╬п╩я▄п╥я┐я▌я┴п╦я┘ Slang.
 
-%description static -l uk
-Цей пакет м╕стить статичну б╕бл╕отеку, необх╕дну для розробки програм,
-що використовують Slang.
+%description static -l uk.UTF-8
+п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄ я│я┌п╟я┌п╦я┤п╫я┐ п╠я√п╠п╩я√п╬я┌п╣п╨я┐, п╫п╣п╬п╠я┘я√п╢п╫я┐ п╢п╩я▐ я─п╬п╥я─п╬п╠п╨п╦ п©я─п╬пЁя─п╟п╪,
+я┴п╬ п╡п╦п╨п╬я─п╦я│я┌п╬п╡я┐я▌я┌я▄ Slang.
+
+%package png
+Summary:	PNG module for Slang
+Summary(pl.UTF-8):	Moduе┌ PNG dla Slanga
+Group:		Libraries
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
+
+%description png
+PNG module for Slang.
+
+%description png -l pl.UTF-8
+Moduе┌ PNG dla Slanga.
+
+%package pcre
+Summary:	PCRE module for Slang
+Summary(pl.UTF-8):	Moduе┌ PCRE dla Slanga
+Group:		Libraries
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
+
+%description pcre
+PCRE module for Slang.
+
+%description pcre -l pl.UTF-8
+Moduе┌ PCRE dla Slanga.
 
 %prep
-%setup  -q -a1
+%setup -q
 %patch0 -p1
-#%%patch1 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%{?with_uClibc:%patch6 -p1}
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 %build
-cp /usr/share/automake/config.sub autoconf
-mv -f autoconf/aclocal.m4 acinclude.m4
-mv -f autoconf/configure.in .
-%{__aclocal}
-%{__autoconf}
-cd demo
-cp -f ../acinclude.m4 .
-%{__aclocal}
-%{__autoconf}
-cd ..
-%configure
+%configure \
+	--with-pcre \
+	--with%{!?with_png:out}-png
 
 %{__make} elf \
 	ELF_CFLAGS="%{rpmcflags} -fPIC"
 %{__make} all \
 	CFLAGS="%{rpmcflags}"
+
 %{__make} -C slsh \
 	DL_LIB="-ldl" \
 	ARCH="elf" \
@@ -239,43 +255,61 @@ cd ..
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
 
-%{__make} install \
+%{__make} install-all -j1 \
 	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-elf \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-links \
-	DESTDIR=$RPM_BUILD_ROOT
-
-ln -sf libslang-utf8.so.%{version} ${RPM_BUILD_ROOT}%{_libdir}/libslang-utf8.so.1
-ln -sf libslang-utf8.so.%{version} ${RPM_BUILD_ROOT}%{_libdir}/libslang.so.1
-ln -sf libslang-utf8.so ${RPM_BUILD_ROOT}%{_libdir}/libslang.so
-ln -sf libslang-utf8.a ${RPM_BUILD_ROOT}%{_libdir}/libslang.a
 
 install slsh/slsh $RPM_BUILD_ROOT%{_bindir}
 
 cp -a modules examples demo src/curses $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 # help rpmdeps
-chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so*
+chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so* \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/v2/modules/*.so
+
+rm -rf $RPM_BUILD_ROOT%{_docdir}/slang/v2
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*.so.*
+%doc slsh/doc/html/*.html
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
+%attr(755,root,root) %{_bindir}/slsh
+%{_datadir}/slsh
+%{_mandir}/man1/*.1*
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libslang.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libslang.so.2
+%dir %{_libdir}/%{name}
+%dir %{_libdir}/%{name}/v2
+%dir %{_libdir}/%{name}/v2/modules
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
+%{?with_png:%exclude %{_libdir}/%{name}/v2/modules/png-module.so}
+%exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/*.txt
-%attr(755,root,root) %{_libdir}/libslang*.so
+%doc doc/slangdoc.html doc/*.txt doc/text/*.txt
+%attr(755,root,root) %{_libdir}/libslang.so
 %{_includedir}
 %{_examplesdir}/%{name}-%{version}
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libslang*.a
+%{_libdir}/libslang.a
+
+%if %{with png}
+%files png
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/png-module.so
+%endif
+
+%files pcre
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/pcre-module.so
