@@ -12,15 +12,15 @@ Summary(ru.UTF-8):	Разделяемая библиотека C-подобно�
 Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
-Version:	2.0.7
-Release:	2
+Version:	2.1.2
+Release:	1
 Epoch:		1
 License:	GPL
 Group:		Libraries
-Source0:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}-%{version}.tar.bz2
-# Source0-md5:	522d9075a721ebe235211dc96c7db2d1
-Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
-# Source1-md5:	1c7acca555a4ad1c165048f751e09b02
+Source0:	ftp://space.mit.edu/pub/davis/slang/v2.1/%{name}-%{version}.tar.bz2
+# Source0-md5:	99534ae667ed1a50c863ce9a08912ccc
+# more recent text documentation already in Source0, html was not packaged anyway
+#Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
 Patch2:		%{name}-LDFLAGS.patch
@@ -232,7 +232,7 @@ PCRE module for Slang.
 Moduł PCRE dla Slanga.
 
 %prep
-%setup -q -a1
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -257,11 +257,7 @@ Moduł PCRE dla Slanga.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} -j1 install-elf \
-	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install-links \
+%{__make} install-all \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install slsh/slsh $RPM_BUILD_ROOT%{_bindir}
@@ -282,31 +278,33 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+%doc slsh/doc/html/*.html
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/slsh
 %{_datadir}/slsh
 %{_mandir}/man1/*.1*
 
 %files libs
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libslang.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libslang.so.2
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/v2
 %dir %{_libdir}/%{name}/v2/modules
-%attr(755,root,root) %{_libdir}/lib*.so.*
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
-%{?with_png:%attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/png-module.so}
-%attr(755,root,root) %exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
+%{?with_png:%exclude %{_libdir}/%{name}/v2/modules/png-module.so}
+%exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
 
 %files devel
 %defattr(644,root,root,755)
-%doc doc/*.txt doc/text/*.txt
-%attr(755,root,root) %{_libdir}/libslang*.so
+%doc doc/slangdoc.html doc/*.txt doc/text/*.txt
+%attr(755,root,root) %{_libdir}/libslang.so
 %{_includedir}
 %{_examplesdir}/%{name}-%{version}
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libslang*.a
+%{_libdir}/libslang.a
 
 %if %{with png}
 %files png
