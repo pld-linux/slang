@@ -1,6 +1,6 @@
---- slang-2.0.7/modules/Makefile.in.orig	2006-11-04 16:57:31.000000000 +0100
-+++ slang-2.0.7/modules/Makefile.in	2006-11-14 20:29:32.965155500 +0100
-@@ -68,23 +68,23 @@
+--- slang-2.1.2/modules/Makefile.in.orig	2007-09-08 04:47:29.000000000 +0200
++++ slang-2.1.2/modules/Makefile.in	2007-09-11 08:24:31.836264453 +0200
+@@ -79,27 +79,27 @@
  	cp ../src/config.h .
  
  slsmg-module.so: slsmg-module.c config.h
@@ -24,12 +24,18 @@
  pcre-module.so: pcre-module.c config.h
 -	$(CC_SHARED) $(INCS) $(PCRE_INC) pcre-module.c -o pcre-module.so $(PCRE_LIB) $(LIBS)
 +	$(CC_SHARED) $(LDFLAGS) $(INCS) $(PCRE_INC) pcre-module.c -o pcre-module.so $(PCRE_LIB) $(LIBS)
+ onig-module.so: onig-module.c config.h
+-	$(CC_SHARED) $(INCS) $(ONIG_INC) onig-module.c -o onig-module.so $(ONIG_LIB) $(LIBS)
++	$(CC_SHARED) $(LDFLAGS) $(INCS) $(ONIG_INC) onig-module.c -o onig-module.so $(ONIG_LIB) $(LIBS)
  png-module.so: png-module.c config.h
 -	$(CC_SHARED) $(INCS) $(PNG_INC) png-module.c -o png-module.so $(PNG_LIB) $(LIBS)
 +	$(CC_SHARED) $(LDFLAGS) $(INCS) $(PNG_INC) png-module.c -o png-module.so $(PNG_LIB) $(LIBS)
  socket-module.so: socket-module.c config.h
 -	$(CC_SHARED) $(INCS) socket-module.c -o socket-module.so $(SOCKET_LIBS) $(LIBS)
 +	$(CC_SHARED) $(LDFLAGS) $(INCS) socket-module.c -o socket-module.so $(SOCKET_LIBS) $(LIBS)
+ iconv-module.so: iconv-module.c config.h
+-	$(CC_SHARED) $(INCS) $(ICONV_INC) iconv-module.c -o iconv-module.so $(ICONV_LIB) $(LIBS)
++	$(CC_SHARED) $(LDFLAGS) $(INCS) $(ICONV_INC) iconv-module.c -o iconv-module.so $(ICONV_LIB) $(LIBS)
  
  # Note that Windows/Cygwin modules need execute permissions
  install: all
