@@ -15,7 +15,7 @@ Name:		slang
 Version:	2.1.2
 Release:	1
 Epoch:		1
-License:	GPL
+License:	GPL v2+
 Group:		Libraries
 Source0:	ftp://space.mit.edu/pub/davis/slang/v2.1/%{name}-%{version}.tar.bz2
 # Source0-md5:	99534ae667ed1a50c863ce9a08912ccc
@@ -26,8 +26,6 @@ Patch1:		%{name}-remove_unused_terminfo_paths.patch
 Patch2:		%{name}-LDFLAGS.patch
 Patch3:		%{name}-LANG.patch
 URL:		http://www.s-lang.org/
-BuildRequires:	autoconf
-BuildRequires:	automake
 %{?with_png:BuildRequires:	libpng-devel}
 BuildRequires:	pcre-devel
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
