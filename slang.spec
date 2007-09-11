@@ -255,7 +255,7 @@ Moduł PCRE dla Slanga.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
 
-%{__make} install-all \
+%{__make} install-all -j1 \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install slsh/slsh $RPM_BUILD_ROOT%{_bindir}
