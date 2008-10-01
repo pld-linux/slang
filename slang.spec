@@ -12,19 +12,18 @@ Summary(ru.UTF-8):	Разделяемая библиотека C-подобно�
 Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
-Version:	2.1.3
+Version:	2.1.4
 Release:	1
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
 Source0:	ftp://space.mit.edu/pub/davis/slang/v2.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	0e4ae3aac75441eaa230bceb7811f088
+# Source0-md5:	1299d5d3317e2aa7e2d75c8ce889474c
 # more recent text documentation already in Source0, html was not packaged anyway
 #Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
-Patch2:		%{name}-LDFLAGS.patch
-Patch3:		%{name}-LANG.patch
+Patch2:		%{name}-LANG.patch
 URL:		http://www.s-lang.org/
 %{?with_png:BuildRequires:	libpng-devel}
 BuildRequires:	pcre-devel
@@ -234,7 +233,6 @@ Moduł PCRE dla Slanga.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %configure \
