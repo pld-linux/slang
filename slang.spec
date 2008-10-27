@@ -13,7 +13,7 @@ Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
 Version:	2.1.4
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
@@ -237,7 +237,15 @@ Moduł PCRE dla Slanga.
 %build
 %configure \
 	--with-pcre \
-	--with%{!?with_png:out}-png
+	--with-pcreinc=/usr/include/pcre \
+	--with-pcrelib=%{_libdir} \
+%if %{with png}
+	--with-png \
+	--with-pnginc=/usr/include/libpng \
+	--with-pnglib=%{_libdir}
+%else
+	--without-png
+%endif
 
 %{__make} elf \
 	ELF_CFLAGS="%{rpmcflags} -fPIC"
