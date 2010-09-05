@@ -304,6 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/slangdoc.html doc/*.txt doc/text/*.txt
 %attr(755,root,root) %{_libdir}/libslang.so
 %{_includedir}
+%{_pkgconfigdir}/slang.pc
 %{_examplesdir}/%{name}-%{version}
 
 %files static
