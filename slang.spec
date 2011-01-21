@@ -12,18 +12,16 @@ Summary(ru.UTF-8):	Разделяемая библиотека C-подобно�
 Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
-Version:	2.2.2
-Release:	2
+Version:	2.2.3
+Release:	1
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
 Source0:	ftp://space.mit.edu/pub/davis/slang/v2.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	974437602a781cfe92ab61433dd16d03
-# more recent text documentation already in Source0, html was not packaged anyway
-#Source1:	ftp://space.mit.edu/pub/davis/slang/v2.0/%{name}doc-2.0.4.tar.gz
+# Source0-md5:	17e1864de999ae9535a9f7350a010427
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
-Patch2:		%{name}-nointerlibc2.patch
+#Patch2:		%{name}-nointerlibc2.patch
 URL:		http://www.s-lang.org/
 %{?with_png:BuildRequires:	libpng-devel}
 BuildRequires:	pcre-devel
@@ -232,7 +230,6 @@ Moduł PCRE dla Slanga.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 %configure \
@@ -264,15 +261,13 @@ install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
 %{__make} install-all -j1 \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install slsh/slsh $RPM_BUILD_ROOT%{_bindir}
-
 cp -a modules examples demo src/curses $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 # help rpmdeps
 chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so* \
 	$RPM_BUILD_ROOT%{_libdir}/%{name}/v2/modules/*.so
 
-rm -rf $RPM_BUILD_ROOT%{_docdir}/slang/v2
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/{slang,slsh}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -286,7 +281,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/slsh.rc
 %attr(755,root,root) %{_bindir}/slsh
 %{_datadir}/slsh
-%{_mandir}/man1/*.1*
+%{_mandir}/man1/slsh.1*
 
 %files libs
 %defattr(644,root,root,755)
