@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	png	# build slang without PNG module
+%bcond_without	onig	# build slang without Oniguruma module
 #
 Summary:	Shared library for C like extension language
 Summary(de.UTF-8):	Shared Library für eine C-artige Sprache
@@ -13,7 +14,7 @@ Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
 Version:	2.2.4
-Release:	5
+Release:	6
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
@@ -23,6 +24,7 @@ Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
 URL:		http://www.s-lang.org/
 %{?with_png:BuildRequires:	libpng-devel}
+%{?with_onig:BuildRequires:	oniguruma-devel}
 BuildRequires:	pcre-devel
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1
@@ -235,6 +237,13 @@ Moduł PCRE dla Slanga.
 	--with-pcre \
 	--with-pcreinc=/usr/include/pcre \
 	--with-pcrelib=%{_libdir} \
+%if %{with onig}
+	--with-onig \
+	--with-oniginc=/usr/include \
+	--with-oniglib=%{_libdir} \
+%else
+	--without-onig
+%endif
 %if %{with png}
 	--with-png \
 	--with-pnginc=/usr/include/libpng \
