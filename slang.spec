@@ -1,3 +1,4 @@
+# TODO: newt module (currently not handled by configure)
 #
 # Conditional build:
 %bcond_without	png	# build slang without PNG module
@@ -13,19 +14,20 @@ Summary(ru.UTF-8):	Разделяемая библиотека C-подобно�
 Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
-Version:	2.2.4
-Release:	7
+Version:	2.3.0
+Release:	1
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
-Source0:	ftp://space.mit.edu/pub/davis/slang/v2.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	7fcfd447e378f07dd0c0bae671fe6487
+Source0:	http://www.jedsoft.org/releases/slang/%{name}-%{version}.tar.bz2
+# Source0-md5:	3bcc790460d52db1316c20395b7ac2f1
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
-URL:		http://www.s-lang.org/
+URL:		http://www.jedsoft.org/slang/
 %{?with_png:BuildRequires:	libpng-devel}
 %{?with_onig:BuildRequires:	oniguruma-devel}
 BuildRequires:	pcre-devel
+BuildRequires:	zlib-devel
 Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
 Obsoletes:	libslang1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -203,6 +205,20 @@ Bibliotecas estáticas para desenvolvimento com slang.
 Цей пакет містить статичну бібліотеку, необхідну для розробки програм,
 що використовують Slang.
 
+%package onig
+Summary:	Onig module for Slang
+Summary(pl.UTF-8):	Moduł Onig dla Slanga
+Group:		Libraries
+Requires:	%{name}-libs = %{epoch}:%{version}-%{release}
+
+%description onig
+Onig module for Slang. It support regular expressions using Oniguruma
+library.
+
+%description onig -l pl.UTF-8
+Moduł Onig dla Slanga. Obsługuje wyrażenia regularne przy użyciu
+biblioteki Oniguruma.
+
 %package png
 Summary:	PNG module for Slang
 Summary(pl.UTF-8):	Moduł PNG dla Slanga
@@ -292,14 +308,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libs
 %defattr(644,root,root,755)
+%doc NEWS README changes.txt
 %attr(755,root,root) %{_libdir}/libslang.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libslang.so.2
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/v2
 %dir %{_libdir}/%{name}/v2/modules
-%attr(755,root,root) %{_libdir}/%{name}/v2/modules/*.so
-%{?with_png:%exclude %{_libdir}/%{name}/v2/modules/png-module.so}
-%exclude %{_libdir}/%{name}/v2/modules/pcre-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/base64-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/chksum-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/csv-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/fcntl-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/fork-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/histogram-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/iconv-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/json-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/rand-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/select-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/slsmg-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/socket-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/stats-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/sysconf-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/termios-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/varray-module.so
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/zlib-module.so
 
 %files devel
 %defattr(644,root,root,755)
@@ -312,6 +343,10 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libslang.a
+
+%files onig
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/v2/modules/onig-module.so
 
 %if %{with png}
 %files png
