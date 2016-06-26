@@ -15,7 +15,7 @@ Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
 Version:	2.3.0
-Release:	1
+Release:	2
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
@@ -258,15 +258,17 @@ Moduł PCRE dla Slanga.
 	--with-oniginc=/usr/include \
 	--with-oniglib=%{_libdir} \
 %else
-	--without-onig
+	--without-onig \
 %endif
 %if %{with png}
 	--with-png \
 	--with-pnginc=/usr/include/libpng \
-	--with-pnglib=%{_libdir}
+	--with-pnglib=%{_libdir} \
 %else
-	--without-png
+	--without-png \
 %endif
+	--with-zinc=/usr/include \
+	--with-zlib=%{_libdir}
 
 %{__make} -j1 elf \
 	ELF_CFLAGS="%{rpmcflags} -fPIC"
@@ -279,12 +281,13 @@ Moduł PCRE dla Slanga.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version},%{_bindir}}
+install -d $RPM_BUILD_ROOT{%{_examplesdir}/%{name}-%{version}/modules,%{_bindir}}
 
 %{__make} install-all -j1 \
 	DESTDIR=$RPM_BUILD_ROOT
 
-cp -a modules examples demo src/curses $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -a examples demo src/curses $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -a modules/{cmaps,examples,help,*.sl} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}/modules
 
 # help rpmdeps
 chmod +x $RPM_BUILD_ROOT%{_libdir}/lib*.so* \
