@@ -14,17 +14,15 @@ Summary(ru.UTF-8):	Разделяемая библиотека C-подобно�
 Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
-Version:	2.3.1a
+Version:	2.3.2
 Release:	2
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.jedsoft.org/releases/slang/%{name}-%{version}.tar.bz2
-# Source0-md5:	c5235313042ed0e71ec708f7b85ec241
+# Source0-md5:	c2d5a7aa0246627da490be4e399c87cb
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
-Patch2:		slang-2.2.4-perms.patch
-Patch3:		slang-32bit-terminfo.patch
 URL:		http://www.jedsoft.org/slang/
 %{?with_png:BuildRequires:	libpng-devel}
 %{?with_onig:BuildRequires:	oniguruma-devel}
@@ -249,8 +247,6 @@ Moduł PCRE dla Slanga.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 
 %build
 %configure \
