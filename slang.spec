@@ -248,6 +248,8 @@ Moduł PCRE dla Slanga.
 %patch0 -p1
 %patch1 -p1
 
+grep -r '#!.*env slsh' -l examples modules/examples slsh/scripts | xargs %{__sed} -i -e '1 s,#!.*env slsh.*,#!/usr/bin/slsh,'
+
 %build
 %configure \
 	--with-pcre \
