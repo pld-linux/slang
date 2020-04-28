@@ -349,9 +349,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libslang.a
 
+%if %{with onig}
 %files onig
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/%{name}/v2/modules/onig-module.so
+%endif
 
 %if %{with png}
 %files png
