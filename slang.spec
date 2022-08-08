@@ -14,13 +14,13 @@ Summary(ru.UTF-8):	Разделяемая библиотека C-подобно�
 Summary(tr.UTF-8):	C benzeri dil için ortak kitaplık
 Summary(uk.UTF-8):	Бібліотека спільного користування C-подібної мови розширення S-Lang
 Name:		slang
-Version:	2.3.2
-Release:	3
+Version:	2.3.3
+Release:	1
 Epoch:		1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.jedsoft.org/releases/slang/%{name}-%{version}.tar.bz2
-# Source0-md5:	c2d5a7aa0246627da490be4e399c87cb
+# Source0-md5:	69015c8300088373eb65ffcc6ed4db8c
 Patch0:		%{name}-nodevel.patch
 Patch1:		%{name}-remove_unused_terminfo_paths.patch
 URL:		http://www.jedsoft.org/slang/
